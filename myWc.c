@@ -6,7 +6,7 @@ int main(int argc, char const *argv[]){
     int Nzeilen =0;
     int Nzeichen = 0;
     int Nwoerter = 0;
-    printf("%d %d %d\n", Nzeilen, Nzeichen, Nwoerter);
+
     if (argc!=2){
         printf("Genau 1 Parameter angeben\n");
         return EXIT_FAILURE;
@@ -23,13 +23,20 @@ int main(int argc, char const *argv[]){
     }
     else{
         char zeichen;
+        char lastsign=zeichen;
         while(zeichen!=EOF){
+            ++Nzeichen;
             if (zeichen==10){
                 ++Nzeilen;
             }
+            if (zeichen != 32 &&(lastsign==32 || lastsign==10 )){
+                ++Nwoerter;
+            }
+            lastsign=zeichen;
             zeichen=fgetc(datei);
         }
     }
+    ++Nwoerter;
     printf("Zeilen: %d\nZeichen: %d\nWörter: %d\n",Nzeilen, Nzeichen, Nwoerter);
     fclose(datei);
     return EXIT_SUCCESS;
