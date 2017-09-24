@@ -14,14 +14,18 @@ void memory_init(){
     mb -> prev = NULL;
 
 }
-void* memory_allocate(size_t byte_count){
-    struct mblock * mbl = (struct mblock*)(&memory[0]);
-    struct mblock mblo;
-        mbl -> size = 8;
+void* memory_allocate(){
+    struct mblock * mbl = (struct mblock*)(&memory[16]);
+    struct mblock * mblo = (struct mblock*)(&memory[128]);
+     struct mblock *  mb = (struct mblock*)(&memory[0]);
+        mb -> size = 0;
+        mb -> next = mbl; //gleich wie *mb.next
+        mb -> prev = NULL;
+        mbl -> size = 26;
         mbl -> next = mblo;
         mbl -> prev = mb;
         mblo -> size = 8;
-        mblo -> next = mb;
+        mblo -> next = NULL;
         mblo -> prev = mbl;
 }
 void memory_print() {
@@ -43,6 +47,7 @@ void memory_print() {
 }
 int main(){
     memory_init();
+    memory_allocate();
     memory_print();
     return EXIT_SUCCESS;
 }
